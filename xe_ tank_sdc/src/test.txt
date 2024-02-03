@@ -1,0 +1,29 @@
+#include <esp_now.h>
+#include <WiFi.h>
+#include <WiFiType.h>
+#include <ESP32Servo.h>
+
+const int escPin = 19; // Pin connected to ESC
+
+Servo esc;
+
+void setup()
+{
+  Serial.begin(115200);
+  esc.setPeriodHertz(71.16);      // Đặt tần số cho ESC
+  esc.attach(escPin, 1000, 2000); // Attach the ESC to the specified pin and set pulse range
+  delay(1000);                    // Allow time for the ESC to initialize
+}
+
+void loop()
+{
+  // Adjust the throttle signal
+  esc.writeMicroseconds(1500); // Set the throttle to a neutral position (1500 microseconds)
+  delay(5000);                 // Keep the throttle at neutral for 5 seconds
+
+  esc.writeMicroseconds(2000); // Set the throttle to maximum forward (2000 microseconds)
+  delay(5000);                 // Keep the throttle at maximum forward for 5 seconds
+
+  esc.writeMicroseconds(1000); // Set the throttle to maximum reverse (1000 microseconds)
+  delay(5000);                 // Keep the throttle at maximum reverse for 5 seconds
+}
